@@ -1,0 +1,55 @@
+﻿<?xml version="1.0"?>
+<ordliste>
+	<language id="Norsk">
+		<word>og</word>
+		<word>i</word>
+		<word>det</word>
+		<word>på</word>
+		<word>som</word>
+		<word>er</word>
+		<word>en</word>
+		<word>til</word>
+		<word>å</word>
+		<word>han</word>
+		<word>av</word>
+		<word>for</word>
+		<word>med</word>
+		<word>at</word>
+		<word>var</word>
+		<word>de</word>
+		<word>ikke</word>
+		<word>den</word>
+		<word>har</word>
+		<word>jeg</word>
+		<word>om</word>
+		<word>et</word>
+		<word>men</word>
+		<word>så</word>
+	</language>
+	<language id="Ny Norsk">
+		<word>og</word>
+		<word>i</word>
+		<word>det</word>
+		<word>på</word>
+		<word>som</word>
+		<word>er</word>
+		<word>ein</word>
+		<word>til</word>
+		<word>å</word>
+		<word>han</word>
+		<word>av</word>
+		<word>for</word>
+		<word>med</word>
+		<word>at</word>
+		<word>var</word>
+		<word>dei</word>
+		<word>ikkje</word>
+		<word>den</word>
+		<word>har</word>
+		<word>eg</word>
+		<word>om</word>
+		<word>et</word>
+		<word>men</word>
+		<word>så</word>
+	</language>
+</ordliste>
