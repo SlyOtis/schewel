@@ -1,0 +1,5 @@
+public class Oblig13Vare {
+	public int ID;
+	public String Navn;
+	public String[] args;
+}

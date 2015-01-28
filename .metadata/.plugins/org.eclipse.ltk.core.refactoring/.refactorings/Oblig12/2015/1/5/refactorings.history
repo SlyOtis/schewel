@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;StatusBar.java&apos; to &apos;Oblig13/src/(default package)&apos;&#x0D;&#x0A;- Original project: &apos;Oblig12&apos;&#x0D;&#x0A;- Destination element: &apos;Oblig13/src/(default package)&apos;&#x0D;&#x0A;- Original element: &apos;StatusBar.java&apos;" description="Copy compilation unit" destination="=Oblig13/src&lt;" element1="/src&lt;{StatusBar.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1422442118667" units="1" version="1.0"/>
+</session>

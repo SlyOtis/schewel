@@ -1,0 +1,28 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+
+public class Oblig13StatusBar extends JLabel{
+	public Oblig13StatusBar(int height) {
+	    super.setPreferredSize(new Dimension(super.getWidth(), height));
+	    super.setFont(new Font(super.getFont().getFontName(), Font.PLAIN, (height - 7)));
+	    set("Ready");
+	}
+	public void set(String message) {
+		setText(message);
+		System.out.println(message);
+	}
+	public void set(String message, Exception e){
+		String output = message + ". Error: " + e.getMessage();
+		setText(output);
+		System.out.println(output);
+	}
+	public void set(Exception e){
+		String output = "Error: " + e.getMessage();
+		setText(output);
+		System.out.println(output);
+	}
+}
