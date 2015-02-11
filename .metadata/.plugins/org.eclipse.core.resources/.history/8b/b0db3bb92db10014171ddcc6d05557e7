@@ -1,0 +1,30 @@
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import twitter4j.*;
+
+public class Oblig15GUI extends JFrame implements ActionListener{
+	
+	static int frame_width = 700;
+	static int frame_height = 500;
+	static int status_height = 20;
+	
+	public Oblig15GUI() {
+		this.setSize(frame_width, frame_height);
+		Container cont = new Container();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel msgpane = new JPanel(new BorderLayout());
+		JButton send = new JButton("Send");
+		send.addActionListener(this);
+		msgpane.add(comp)
+		
+		
+	}
+
+}

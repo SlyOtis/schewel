@@ -1,0 +1,11 @@
+import javax.swing.JPanel;
+import twitter4j.*;
+public class Oblig15Post extends JPanel{
+	public String sender;
+	public String msg;
+	public Oblig15Post(Status status) {
+		
+		
+	}
+
+}

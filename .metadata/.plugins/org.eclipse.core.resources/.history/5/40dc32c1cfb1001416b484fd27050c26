@@ -1,0 +1,196 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JViewport;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+
+public class Oblig15MsgBoard extends JPanel{
+	static int post_height = 160;
+	static int post_width = 500;
+	static int post_spacing = 20;
+	static long update_interval = 5000;
+	static Font head_font = new Font("Serif", Font.PLAIN, 14);
+	static Font info_font = new Font("Serif", Font.PLAIN, 14);
+	static Font text_font = new Font("Serif", Font.PLAIN, 14);
+	
+	static String ConsumerKey = "xnRDSujb3Xf7b4LD37jusFADA";
+	static String ConsumerSecret = "BARCQAgTWSvsDipCaVRMfSuFw0EQzVfzG5kcUp46qwUGXuEkZK";
+	static String AccessToken = "165454356-mZkciLVz7s87Hrp5d9TIDuG88tjDxkiDoYcNSSeB";
+	static String AccessTokenSecret = "2fwEy4gupu6lyEwIADExsJUYstSGni5Lhzf1pJXTOsz78";
+	
+	private JPanel display;
+	private Twitter twitter;
+	private User user;
+	
+	public Oblig15MsgBoard(){
+		TwitterInit();
+		
+		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		
+		display = new JPanel();
+		display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
+		display.setBackground(Color.WHITE);
+		display.setAutoscrolls(true);
+		
+		JViewport view = new JViewport();
+		view.setView(display);
+		JScrollPane pane = new JScrollPane(display);
+		
+		JScrollBar roll = new JScrollBar(JScrollBar.VERTICAL);
+		roll.addAdjustmentListener(new AdjustmentListener() {
+			
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				if(e.getAdjustmentType() == e.UNIT_DECREMENT){
+					if(display.getY() != 0){
+						display.setLocation(display.getX(), display.getY() - e.getValue());
+					}
+				}else{
+					if(display.getY() != display.getHeight()){
+						display.setLocation(display.getX(), display.getY() - e.getValue());
+					}
+				}
+				
+			}
+		});
+		
+		this.add(pane, BorderLayout.LINE_END);
+		this.add(view, BorderLayout.CENTER);
+		UpdateTimeline();
+	}
+	private void TwitterInit(){
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(true);
+		cb.setOAuthConsumerKey(ConsumerKey);
+		cb.setOAuthConsumerSecret(ConsumerSecret);
+		cb.setOAuthAccessToken(AccessToken);
+		cb.setOAuthAccessTokenSecret(AccessTokenSecret);
+		TwitterFactory tf = new TwitterFactory(cb.build());
+		twitter = tf.getInstance();
+		try{
+			user = twitter.verifyCredentials();
+			System.out.println("Verifyed");
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+	private void UpdateTimeline(){
+		try {
+            List<Status> statuses = twitter.getHomeTimeline();
+            System.out.println("Showing @" + user.getScreenName() + "'s home timeline.");
+            int i = 0;
+            for (Status status : statuses) {
+            	addStatus(status);
+            	i += 1;
+            	System.out.println(String.valueOf(i));
+            }
+            display.setPreferredSize(new Dimension(this.getWidth(),(post_height + post_spacing)*statuses.size()));
+            display.revalidate();
+            display.repaint();
+            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get timeline: " + te.getMessage());
+        }
+	}
+	public static ImageIcon getImage(String url){
+	    try{
+	    	URL imageurl = new URL(url);
+	    	BufferedImage c = ImageIO.read(imageurl);
+	    	Image dimg = c.getScaledInstance(post_height, post_height, Image.SCALE_SMOOTH);
+	    	ImageIcon image = new ImageIcon(dimg);
+	    	return image;
+	    }catch(IOException e){
+	    	System.out.println(e.getMessage());
+	    	return null;
+	    }
+	}
+	public void postTweet(String tweet){
+		    try {
+				Status status = twitter.updateStatus(tweet);
+				addStatus(status);
+			} catch (TwitterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	
+	private void addStatus(Status status){
+		Oblig15Post post = new Oblig15Post(status);
+		display.add(post);
+    	display.add(Box.createRigidArea(new Dimension(0,post_spacing)));
+		System.out.println(status.getUser().getScreenName() + ": " + status.getText());
+	}
+	public class Oblig15Post extends JPanel {
+		public Oblig15Post(Status status) {
+			this.setLayout(new BorderLayout());
+			JPanel header = new JPanel(new BorderLayout());
+			JPanel footer = new JPanel(new BorderLayout());
+			JPanel frame = new JPanel(new BorderLayout());
+			Dimension card = new Dimension(post_width, post_height);
+			this.setPreferredSize(card);
+			this.setMaximumSize(card);
+			this.setMinimumSize(card);
+			header.setBorder(new EmptyBorder(2, 1, 1, 2));
+			footer.setBorder(new EmptyBorder(2, 1, 1, 2));
+			
+			JTextArea message = new JTextArea(status.getText());
+			JLabel name = new JLabel("@" + status.getUser().getScreenName());
+			JLabel followers = new JLabel("Followers: " +  String.valueOf(status.getUser().getFollowersCount()));
+			JLabel pos = new JLabel("Sendt fra: " + status.getUser().getLocation());
+			JLabel img = new JLabel(getImage(status.getUser().getBiggerProfileImageURL()));
+			name.setFont(head_font);
+			followers.setFont(info_font);
+			followers.setForeground(Color.GRAY);
+			pos.setFont(info_font);
+			pos.setForeground(Color.GRAY);
+			message.setFont(text_font);
+			message.setBackground(Color.WHITE);
+			message.setEditable(false);
+			message.setLineWrap(true);
+			message.setWrapStyleWord(true);
+			message.setBorder(new EmptyBorder(3, 1, 1, 0));
+			name.setForeground(Color.BLUE);
+			img.setMinimumSize(new Dimension(post_height, post_height));
+			
+			header.add(name,BorderLayout.LINE_START);
+			header.add(followers, BorderLayout.LINE_END);
+			footer.add(pos, BorderLayout.LINE_END);
+			frame.add(message, BorderLayout.CENTER);
+			frame.add(header,BorderLayout.PAGE_START);
+			frame.add(footer, BorderLayout.PAGE_END);
+			this.add(img, BorderLayout.LINE_START);
+			this.add(frame, BorderLayout.CENTER);
+			this.setBorder(BorderFactory.createRaisedBevelBorder());
+		}
+
+	}
+}
+

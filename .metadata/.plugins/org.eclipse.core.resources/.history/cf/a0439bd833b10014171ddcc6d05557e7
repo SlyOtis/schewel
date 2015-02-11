@@ -1,0 +1,11 @@
+import javax.swing.JPanel;
+
+
+public class Oblig15Post extends JPanel{
+	public String sender;
+	public String msg;
+	public Oblig15Post() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

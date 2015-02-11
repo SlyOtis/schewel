@@ -1,0 +1,50 @@
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import twitter4j.TwitterException;
+
+public class Oblig15GUI extends JFrame implements ActionListener{
+	
+	static int frame_width = 700;
+	static int frame_height = 500;
+	static int status_height = 20;
+	static int msginput_height = 60;
+	public Oblig15MsgBoard msgboard;
+	
+	public Oblig15GUI(){
+		super("Oblig15 - Twitter");
+		this.setSize(frame_width, frame_height);
+		Container cont = this.getContentPane();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel msgpane = new JPanel(new BorderLayout());
+		JButton send = new JButton("Send");
+		JTextField msgtext = new JTextField();
+		send.setPreferredSize(new Dimension(this.getWidth()/8,msginput_height));
+		msgtext.setPreferredSize(new Dimension(this.getWidth()*(7/8),msginput_height));
+		msgtext.addActionListener(this);
+		send.addActionListener(this);
+		msgpane.add(send,BorderLayout.LINE_END);
+		msgpane.add(msgtext, BorderLayout.CENTER);
+		msgpane.setPreferredSize(new Dimension(this.getWidth(), msginput_height));
+		cont.add(msgpane, BorderLayout.PAGE_END);
+		
+		msgboard = new Oblig15MsgBoard();
+		cont.add(msgboard,BorderLayout.CENTER);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
